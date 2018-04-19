@@ -227,15 +227,15 @@
 [ ] CryptoNative_SslWrite
 [ ] CryptoNative_UpRefEvpPkey
 [ ] CryptoNative_X509CheckIssued
-[X] CryptoNative_X509CheckPurpose
-[X] CryptoNative_X509CrlDestroy
-[X] CryptoNative_X509Destroy
+[X] CryptoNative_X509CheckPurpose - single call covered by throw CreateOpenSslCryptographicException
+[X] CryptoNative_X509CrlDestroy - actually calls X509_CRL_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_X509Destroy - actually calls X509_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
 [ ] CryptoNative_X509Duplicate => DEADCODE
-[ ] CryptoNative_X509ExtensionCreateByObj => needs to track caller FormatNative in C:\s\github\pjanotti\corefx\src\System.Security.Cryptography.Encoding\src\Internal\Cryptography\OpenSslAsnFormatter.cs
-[X] CryptoNative_X509ExtensionDestroy
-[X] CryptoNative_X509ExtensionGetCritical
-[X] CryptoNative_X509ExtensionGetData
-[X] CryptoNative_X509ExtensionGetOid
+[ ] CryptoNative_X509ExtensionCreateByObj => caller FormatNative in C:\s\github\pjanotti\corefx\src\System.Security.Cryptography.Encoding\src\Internal\Cryptography\OpenSslAsnFormatter.cs
+[X] CryptoNative_X509ExtensionDestroy - actually calls X509_EXTENSION_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_X509ExtensionGetCritical - single call, return does not indicate error or not, assuming that it doesn't log errorif we pass valid argument
+[X] CryptoNative_X509ExtensionGetData - single call covered by CheckValidOpenSslHandle
+[X] CryptoNative_X509ExtensionGetOid - single call covered by CheckValidOpenSslHandle
 [ ] CryptoNative_X509GetExt
 [ ] CryptoNative_X509GetExtCount
 [ ] CryptoNative_X509GetIssuerName
