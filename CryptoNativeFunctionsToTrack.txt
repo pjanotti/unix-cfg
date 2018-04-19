@@ -227,15 +227,15 @@
 [ ] CryptoNative_SslWrite
 [ ] CryptoNative_UpRefEvpPkey
 [ ] CryptoNative_X509CheckIssued
-[ ] CryptoNative_X509CheckPurpose
-[ ] CryptoNative_X509CrlDestroy
-[ ] CryptoNative_X509Destroy
-[ ] CryptoNative_X509Duplicate
-[ ] CryptoNative_X509ExtensionCreateByObj
-[ ] CryptoNative_X509ExtensionDestroy
-[ ] CryptoNative_X509ExtensionGetCritical
-[ ] CryptoNative_X509ExtensionGetData
-[ ] CryptoNative_X509ExtensionGetOid
+[X] CryptoNative_X509CheckPurpose
+[X] CryptoNative_X509CrlDestroy
+[X] CryptoNative_X509Destroy
+[ ] CryptoNative_X509Duplicate => DEADCODE
+[ ] CryptoNative_X509ExtensionCreateByObj => needs to track caller FormatNative in C:\s\github\pjanotti\corefx\src\System.Security.Cryptography.Encoding\src\Internal\Cryptography\OpenSslAsnFormatter.cs
+[X] CryptoNative_X509ExtensionDestroy
+[X] CryptoNative_X509ExtensionGetCritical
+[X] CryptoNative_X509ExtensionGetData
+[X] CryptoNative_X509ExtensionGetOid
 [ ] CryptoNative_X509GetExt
 [ ] CryptoNative_X509GetExtCount
 [ ] CryptoNative_X509GetIssuerName
