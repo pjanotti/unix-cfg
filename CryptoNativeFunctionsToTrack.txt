@@ -37,13 +37,13 @@
 [X] CryptoNative_DsaGenerateKey - single call covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_DsaKeyCreateByExplicitParameters => error on managed side is handled, but potential errors in SetDsaParameter on native are not
 [X] CryptoNative_DsaSign - two calls covered by CreateOpenSslCryptographicException
-[ ] CryptoNative_DsaSizeP
-[ ] CryptoNative_DsaSizeQ
-[ ] CryptoNative_DsaSizeSignature
-[ ] CryptoNative_DsaUpRef
-[ ] CryptoNative_DsaVerify
-[ ] CryptoNative_EcDsaSign
-[ ] CryptoNative_EcDsaSize
+[X] CryptoNative_DsaSizeP - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_DsaSizeQ - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_DsaSizeSignature - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_DsaUpRef - single call covered by CreateOpenSslCryptographicException
+[ ] CryptoNative_DsaVerify => single call not protected on the caller, need to check calltree
+[X] CryptoNative_EcDsaSign - two calls covered by CreateOpenSslCryptographicException
+[ ] CryptoNative_EcDsaSize => two locations need to check for 0 return and throw in such cases
 [ ] CryptoNative_EcDsaVerify
 [ ] CryptoNative_EcKeyCreateByExplicitParameters
 [ ] CryptoNative_EcKeyCreateByKeyParameters
