@@ -23,20 +23,20 @@
 [X] CryptoNative_DecodeAsn1BitString - single call, covered by check w/ CheckValidOpensslHandle
 [ ] CryptoNative_DecodeAsn1OctetString => DEADCODE
 [ ] CryptoNative_DecodeAsn1TypeBytes => single call, needs ERR_clear_error
-[ ] CryptoNative_DecodeExtendedKeyUsage
-[ ] CryptoNative_DecodePkcs12
-[ ] CryptoNative_DecodePkcs12FromBio
-[ ] CryptoNative_DecodePkcs7
-[ ] CryptoNative_DecodeRsaPublicKey
+[X] CryptoNative_DecodeExtendedKeyUsage - single call, covered by CheckValidOpenSslHandle
+[X] CryptoNative_DecodePkcs12 - covered in push to clean up error queue
+[X] CryptoNative_DecodePkcs12FromBio - covered in push to clean up error queue
+[X] CryptoNative_DecodePkcs7 - covered in push to clean up error queue
+[X] CryptoNative_DecodeRsaPublicKey - there is other method with same name but the interop is covered by CheckValidOpenSslHandle
 [X] CryptoNative_DecodeX509 - covered in push to clean up error queue
 [X] CryptoNative_DecodeX509BasicConstraints2Extension - Relatively large native, errors left on queue cleaned on managed side in case of error
 [ ] CryptoNative_DecodeX509Crl => single location, missing clean up at usage, check caller
 [ ] CryptoNative_DecodeX509Name => single location, missing clean up at usage, check caller
-[ ] CryptoNative_DsaCreate
-[ ] CryptoNative_DsaDestroy
-[ ] CryptoNative_DsaGenerateKey
-[ ] CryptoNative_DsaKeyCreateByExplicitParameters
-[ ] CryptoNative_DsaSign
+[ ] CryptoNative_DsaCreate => DEADCODE
+[X] CryptoNative_DsaDestroy - single call, void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_DsaGenerateKey - single call covered by CreateOpenSslCryptographicException
+[ ] CryptoNative_DsaKeyCreateByExplicitParameters => error on managed side is handled, but potential errors in SetDsaParameter on native are not
+[X] CryptoNative_DsaSign - two calls covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_DsaSizeP
 [ ] CryptoNative_DsaSizeQ
 [ ] CryptoNative_DsaSizeSignature
