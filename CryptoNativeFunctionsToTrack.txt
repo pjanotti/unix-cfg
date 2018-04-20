@@ -8,18 +8,18 @@
 [X] CryptoNative_BigNumDestroy - single call, void, assuming that it doesn't log error if we pass valid argument
 [ ] CryptoNative_BigNumFromBinary => single call, missing clean up check calltree but likely clear on call site
 [X] CryptoNative_BigNumToBinary - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_BioCtrlPending
-[ ] CryptoNative_BioDestroy
-[ ] CryptoNative_BioGets
-[ ] CryptoNative_BioNewFile
-[ ] CryptoNative_BioRead
-[ ] CryptoNative_BioSeek
-[ ] CryptoNative_BioTell
-[ ] CryptoNative_BioWrite
+[X] CryptoNative_BioCtrlPending - single call, return pending data amount, assuming that it doesn't log error if we pass valid argument
+[ ] CryptoNative_BioDestroy - single call, not cleared on the caller (likely should be), need to check call tree
+[X] CryptoNative_BioGets - single call, covered by CreateOpenSslCryptographicException
+[ ] CryptoNative_BioNewFile => handful of calls, need to check call tree for AddCachedCrl, DownloadAndAddCrl, and LoadMachineStores
+[ ] CryptoNative_BioRead => all call sites protected but some taking only last error (perhaps we should ensure queue is clear)
+[ ] CryptoNative_BioSeek => ops, I missed two locations of this one in previous change
+[ ] CryptoNative_BioTell => debug assert but no clean up in case of error
+[ ] CryptoNative_BioWrite => Some calls not fully protected, other only last error
 [ ] CryptoNative_CheckX509Hostname => Relatively large native, likely leaving errors on queue
 [ ] CryptoNative_CheckX509IpAddress => Relatively large native, likely leaving errors on queue
-[ ] CryptoNative_CreateMemoryBio
-[ ] CryptoNative_D2IPkcs7Bio
+[ ] CryptoNative_CreateMemoryBio => some calls not cleaned, need to check call tree
+[X] CryptoNative_D2IPkcs7Bio - covered in push to clean up error queue
 [X] CryptoNative_DecodeAsn1BitString - single call, covered by check w/ CheckValidOpensslHandle
 [ ] CryptoNative_DecodeAsn1OctetString => DEADCODE
 [ ] CryptoNative_DecodeAsn1TypeBytes => single call, needs ERR_clear_error
@@ -58,8 +58,8 @@
 [ ] CryptoNative_EncodePkcs7
 [ ] CryptoNative_EncodeX509 => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
 [ ] CryptoNative_EncodeX509SubjectPublicKeyInfo => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
-[ ] CryptoNative_EnsureLibSslInitialized
-[ ] CryptoNative_EnsureOpenSslInitialized
+[X] CryptoNative_EnsureLibSslInitialized - covered in push to clean up error queue
+[X] CryptoNative_EnsureOpenSslInitialized - covered in push to clean up error queue
 [ ] CryptoNative_ErrClearError
 [ ] CryptoNative_ErrErrorStringN
 [ ] CryptoNative_ErrGetError
@@ -108,7 +108,6 @@
 [ ] CryptoNative_EvpSha384
 [ ] CryptoNative_EvpSha512
 [ ] CryptoNative_ExtendedKeyUsageDestory
-[ ] CryptoNative_ForceOpenSslErrorQueueCleanupBeforeWriteRead
 [X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
 [ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
 [X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
