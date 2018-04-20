@@ -5,9 +5,9 @@
 [ ] CryptoNative_Asn1OctetStringSet => single call, needs ERR_clear_error
 [X] CryptoNative_Asn1StringFree - single call, void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_Asn1StringPrintEx - two calls, covered via Asn1StringToManagedString
-[ ] CryptoNative_BigNumDestroy
-[ ] CryptoNative_BigNumFromBinary
-[ ] CryptoNative_BigNumToBinary
+[X] CryptoNative_BigNumDestroy - single call, void, assuming that it doesn't log error if we pass valid argument
+[ ] CryptoNative_BigNumFromBinary => single call, missing clean up check calltree but likely clear on call site
+[X] CryptoNative_BigNumToBinary - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
 [ ] CryptoNative_BioCtrlPending
 [ ] CryptoNative_BioDestroy
 [ ] CryptoNative_BioGets
@@ -111,7 +111,7 @@
 [ ] CryptoNative_ForceOpenSslErrorQueueCleanupBeforeWriteRead
 [X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
 [ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
-[ ] CryptoNative_GetBigNumBytes
+[X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
 [ ] CryptoNative_GetDsaParameters
 [ ] CryptoNative_GetMaxMdSize
 [ ] CryptoNative_GetMemoryBioSize
