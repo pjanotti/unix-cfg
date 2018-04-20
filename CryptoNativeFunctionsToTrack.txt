@@ -1,10 +1,10 @@
-[ ] CryptoNative_Asn1BitStringFree
-[ ] CryptoNative_Asn1ObjectFree
-[ ] CryptoNative_Asn1OctetStringFree
-[ ] CryptoNative_Asn1OctetStringNew
-[ ] CryptoNative_Asn1OctetStringSet
-[ ] CryptoNative_Asn1StringFree
-[ ] CryptoNative_Asn1StringPrintEx
+[X] CryptoNative_Asn1BitStringFree - single call, void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_Asn1ObjectFree - single call, void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_Asn1OctetStringFree - single call, void, assuming that it doesn't log error if we pass valid argument
+[ ] CryptoNative_Asn1OctetStringNew => single call, needs ERR_clear_error
+[ ] CryptoNative_Asn1OctetStringSet => single call, needs ERR_clear_error
+[X] CryptoNative_Asn1StringFree - single call, void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_Asn1StringPrintEx - two calls, covered via Asn1StringToManagedString
 [ ] CryptoNative_BigNumDestroy
 [ ] CryptoNative_BigNumFromBinary
 [ ] CryptoNative_BigNumToBinary
@@ -20,9 +20,9 @@
 [ ] CryptoNative_CheckX509IpAddress => Relatively large native, likely leaving errors on queue
 [ ] CryptoNative_CreateMemoryBio
 [ ] CryptoNative_D2IPkcs7Bio
-[ ] CryptoNative_DecodeAsn1BitString
-[ ] CryptoNative_DecodeAsn1OctetString
-[ ] CryptoNative_DecodeAsn1TypeBytes
+[X] CryptoNative_DecodeAsn1BitString - single call, covered by check w/ CheckValidOpensslHandle
+[ ] CryptoNative_DecodeAsn1OctetString => DEADCODE
+[ ] CryptoNative_DecodeAsn1TypeBytes => single call, needs ERR_clear_error
 [ ] CryptoNative_DecodeExtendedKeyUsage
 [ ] CryptoNative_DecodePkcs12
 [ ] CryptoNative_DecodePkcs12FromBio
@@ -53,7 +53,7 @@
 [ ] CryptoNative_EcKeyGetCurveName2
 [ ] CryptoNative_EcKeyGetCurveType
 [ ] CryptoNative_EcKeyUpRef
-[ ] CryptoNative_EncodeAsn1Integer
+[ ] CryptoNative_EncodeAsn1Integer => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
 [ ] CryptoNative_EncodePkcs12
 [ ] CryptoNative_EncodePkcs7
 [ ] CryptoNative_EncodeX509 => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
@@ -109,8 +109,8 @@
 [ ] CryptoNative_EvpSha512
 [ ] CryptoNative_ExtendedKeyUsageDestory
 [ ] CryptoNative_ForceOpenSslErrorQueueCleanupBeforeWriteRead
-[ ] CryptoNative_GetAsn1IntegerDerSize
-[ ] CryptoNative_GetAsn1StringBytes
+[X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
+[ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
 [ ] CryptoNative_GetBigNumBytes
 [ ] CryptoNative_GetDsaParameters
 [ ] CryptoNative_GetMaxMdSize
