@@ -113,13 +113,13 @@
 [X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
 [ ] CryptoNative_GetDsaParameters => single call, throws exception, should clean up the queue
 [X] CryptoNative_GetMaxMdSize - returns const
-[ ] CryptoNative_GetMemoryBioSize - 
-[ ] CryptoNative_GetObjectDefinitionByName
-[ ] CryptoNative_GetPkcs12DerSize
-[ ] CryptoNative_GetPkcs7Certificates
-[ ] CryptoNative_GetPkcs7DerSize
-[ ] CryptoNative_GetRsaParameters
-[ ] CryptoNative_GetSslConnectionInfo
+[X] CryptoNative_GetMemoryBioSize - 3 calls, assuming error check for BioGets or BioRead failures covers it (most likely doesn't log errors)
+[ ] CryptoNative_GetObjectDefinitionByName => calls other natives, error clean-up can be made on native side
+[X] CryptoNative_GetPkcs12DerSize - single call, covered in OpenSslEncode (1st parameter)
+[ ] CryptoNative_GetPkcs7Certificates - two calls, call at TryReadPkcs7 needs to be checked.
+[X] CryptoNative_GetPkcs7DerSize - single call, covered in OpenSslEncode (1st parameter)
+[ ] CryptoNative_GetRsaParameters => single call, throws CryptographicException, needs error cleanup
+[ ] CryptoNative_GetSslConnectionInfo => single call, will be covered if CreateSslException cleans up the error queue
 [ ] CryptoNative_GetX509CrlNextUpdate => single call, didn't find doc, we should check for null and clean up just in case
 [X] CryptoNative_GetX509DerSize - single call, error cleaned in OpenSslEncode
 [X] CryptoNative_GetX509EkuField - single call covered by throw Interop.Crypto.CreateOpenSslCryptographicException in case of failure
@@ -146,11 +146,11 @@
 [X] CryptoNative_GetX509SubjectPublicKeyInfoDerSize - single call covered by OpenSslEncode
 [X] CryptoNative_GetX509Thumbprint - single call covered in GetDynamicBuffer
 [ ] CryptoNative_GetX509Version => single call throws CryptographicException without cleaning the error queue (should we throw more detailed exception?)
-[ ] CryptoNative_HmacCreate
-[ ] CryptoNative_HmacDestroy
-[ ] CryptoNative_HmacFinal
-[ ] CryptoNative_HmacReset
-[ ] CryptoNative_HmacUpdate
+[X] CryptoNative_HmacCreate - single call (Unix), covered by CheckValidOpenSslHandle
+[X] CryptoNative_HmacDestroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_HmacFinal - single call (Unix), covered by Check
+[X] CryptoNative_HmacReset - single call, covered by Check
+[ ] CryptoNative_HmacUpdate - single call (Unix), covered by Check
 [ ] CryptoNative_IsSslRenegotiatePending
 [ ] CryptoNative_IsSslStateOK
 [ ] CryptoNative_LookupFriendlyNameByOid
