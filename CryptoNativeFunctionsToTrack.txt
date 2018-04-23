@@ -67,47 +67,47 @@
 [X] CryptoNative_ErrPeekError - just peeks at error queue
 [X] CryptoNative_ErrPeekLastError - just peeks at error queue
 [X] CryptoNative_ErrReasonErrorString - assuming doesn't log error if receives valid error code
-[ ] CryptoNative_EvpAes128Cbc
-[ ] CryptoNative_EvpAes128Ecb
-[ ] CryptoNative_EvpAes192Cbc
-[ ] CryptoNative_EvpAes192Ecb
-[ ] CryptoNative_EvpAes256Cbc
-[ ] CryptoNative_EvpAes256Ecb
-[ ] CryptoNative_EvpCipherCreate2
-[ ] CryptoNative_EvpCipherCtxSetPadding
-[ ] CryptoNative_EvpCipherDestroy
-[ ] CryptoNative_EvpCipherFinalEx
-[ ] CryptoNative_EvpCipherReset
-[ ] CryptoNative_EvpCipherUpdate
-[ ] CryptoNative_EvpDes3Cbc
-[ ] CryptoNative_EvpDes3Ecb
-[ ] CryptoNative_EvpDesCbc
-[ ] CryptoNative_EvpDesEcb
-[ ] CryptoNative_EvpDigestFinalEx
-[ ] CryptoNative_EvpDigestReset
-[ ] CryptoNative_EvpDigestUpdate
-[ ] CryptoNative_EvpMd5
-[ ] CryptoNative_EvpMdCtxCreate
-[ ] CryptoNative_EvpMdCtxDestroy
-[ ] CryptoNative_EvpMdSize
-[ ] CryptoNative_EvpPkeyCreate
-[ ] CryptoNative_EvpPKeyCtxCreate
-[ ] CryptoNative_EvpPKeyCtxDestroy
-[ ] CryptoNative_EvpPKeyDeriveSecretAgreement
-[ ] CryptoNative_EvpPkeyDestroy
-[ ] CryptoNative_EvpPkeyGetDsa
-[ ] CryptoNative_EvpPkeyGetEcKey
-[ ] CryptoNative_EvpPkeyGetRsa
-[ ] CryptoNative_EvpPkeySetDsa
-[ ] CryptoNative_EvpPkeySetEcKey
-[ ] CryptoNative_EvpPkeySetRsa
-[ ] CryptoNative_EvpRC2Cbc
-[ ] CryptoNative_EvpRC2Ecb
-[ ] CryptoNative_EvpSha1
-[ ] CryptoNative_EvpSha256
-[ ] CryptoNative_EvpSha384
-[ ] CryptoNative_EvpSha512
-[ ] CryptoNative_ExtendedKeyUsageDestory
+[X] CryptoNative_EvpAes128Cbc - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpAes128Ecb - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpAes192Cbc - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpAes192Ecb - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpAes256Cbc - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[x] CryptoNative_EvpAes256Ecb - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpCipherCreate2 - used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpCipherCtxSetPadding - used in OpenSslCipher.OpenKey, covered by CheckBoolReturn
+[ ] CryptoNative_EvpCipherDestroy => single location, clean up on native side enough
+[X] CryptoNative_EvpCipherFinalEx - single call, covered by CheckBoolReturn
+[X] CryptoNative_EvpCipherReset - single call, covered by CheckBoolReturn
+[X] CryptoNative_EvpCipherUpdate - single call, covered by CheckBoolReturn
+[X] CryptoNative_EvpDes3Cbc - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpDes3Ecb - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpDesCbc - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpDesEcb - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpDigestFinalEx - single call, covered by Check
+[X] CryptoNative_EvpDigestReset - single call, covered by Check
+[X] CryptoNative_EvpDigestUpdate - single call, covered by Check
+[ ] CryptoNative_EvpMd5 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[X] CryptoNative_EvpMdCtxCreate - single call, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpMdCtxDestroy - single call, void, assuming doesn't log errors on good argument
+[ ] CryptoNative_EvpMdSize => in EvpHashProvider and HmacHashProvider need throws exception but doesn't clear error queue
+[X] CryptoNative_EvpPkeyCreate - handful of locations, used in conjuction with respective EvpPkeySet*, covered by CheckValidOpenSslHandle after EvpPkeySet*
+[X] CryptoNative_EvpPKeyCtxCreate - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPKeyCtxDestroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_EvpPKeyDeriveSecretAgreement - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeyDestroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_EvpPkeyGetDsa - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeyGetEcKey - 3 calls, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeyGetRsa - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeySetDsa - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeySetEcKey - 4 calls, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpPkeySetRsa - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_EvpRC2Cbc - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[X] CryptoNative_EvpRC2Ecb - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
+[ ] CryptoNative_EvpSha1 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[ ] CryptoNative_EvpSha256 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[ ] CryptoNative_EvpSha384 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[ ] CryptoNative_EvpSha512 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[X] CryptoNative_ExtendedKeyUsageDestory - single call, void, assuming doesn't log errors on good argument
 [X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
 [ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
 [X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
