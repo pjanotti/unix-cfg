@@ -44,29 +44,29 @@
 [ ] CryptoNative_DsaVerify => single call not protected on the caller, need to check calltree
 [X] CryptoNative_EcDsaSign - two calls covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_EcDsaSize => two locations need to check for 0 return and throw in such cases
-[ ] CryptoNative_EcDsaVerify
-[ ] CryptoNative_EcKeyCreateByExplicitParameters
-[ ] CryptoNative_EcKeyCreateByKeyParameters
-[ ] CryptoNative_EcKeyCreateByOid
-[ ] CryptoNative_EcKeyDestroy
-[ ] CryptoNative_EcKeyGenerateKey
-[ ] CryptoNative_EcKeyGetCurveName2
-[ ] CryptoNative_EcKeyGetCurveType
-[ ] CryptoNative_EcKeyUpRef
+[ ] CryptoNative_EcDsaVerify => single call, needs clear error, double-check call tree but seems simple
+[ ] CryptoNative_EcKeyCreateByExplicitParameters => 3 calls, relatively large native code, seems covered on managed side need to check if native can return success but leave errors on queue
+[ ] CryptoNative_EcKeyCreateByKeyParameters => single call, relatively large native code, not covered
+[ ] CryptoNative_EcKeyCreateByOid => 2 calls (plus a handful in tests), needs error clean up
+[X] CryptoNative_EcKeyDestroy - single call (plus a handful in tests, void, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_EcKeyGenerateKey - 3 calls on src (plus about 10 in tets), all covered in sources.
+[ ] CryptoNative_EcKeyGetCurveName2 => DEADCODE
+[X] CryptoNative_EcKeyGetCurveType - called only from CryptoNative_GetECKeyParameters will be evaluated in the context of it
+[X] CryptoNative_EcKeyUpRef - single call covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_EncodeAsn1Integer => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
-[ ] CryptoNative_EncodePkcs12
-[ ] CryptoNative_EncodePkcs7
+[ ] CryptoNative_EncodePkcs12 => single call, 2nd parameter of OpenSslEncode, not covered
+[ ] CryptoNative_EncodePkcs7 => single call, 2nd parameter of OpenSslEncode, not covered
 [ ] CryptoNative_EncodeX509 => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
 [ ] CryptoNative_EncodeX509SubjectPublicKeyInfo => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
 [X] CryptoNative_EnsureLibSslInitialized - covered in push to clean up error queue
 [X] CryptoNative_EnsureOpenSslInitialized - covered in push to clean up error queue
-[ ] CryptoNative_ErrClearError
-[ ] CryptoNative_ErrErrorStringN
-[ ] CryptoNative_ErrGetError
-[ ] CryptoNative_ErrGetErrorAlloc
-[ ] CryptoNative_ErrPeekError
-[ ] CryptoNative_ErrPeekLastError
-[ ] CryptoNative_ErrReasonErrorString
+[X] CryptoNative_ErrClearError - clear error queue
+[X] CryptoNative_ErrErrorStringN - assuming doesn't log error if receives valid error code
+[X] CryptoNative_ErrGetError - remove error from queue
+[X] CryptoNative_ErrGetErrorAlloc - small logic on ERR_get_error return value
+[X] CryptoNative_ErrPeekError - just peeks at error queue
+[X] CryptoNative_ErrPeekLastError - just peeks at error queue
+[X] CryptoNative_ErrReasonErrorString - assuming doesn't log error if receives valid error code
 [ ] CryptoNative_EvpAes128Cbc
 [ ] CryptoNative_EvpAes128Ecb
 [ ] CryptoNative_EvpAes192Cbc
