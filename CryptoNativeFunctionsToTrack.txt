@@ -111,9 +111,9 @@
 [X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
 [ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
 [X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_GetDsaParameters
-[ ] CryptoNative_GetMaxMdSize
-[ ] CryptoNative_GetMemoryBioSize
+[ ] CryptoNative_GetDsaParameters => single call, throws exception, should clean up the queue
+[X] CryptoNative_GetMaxMdSize - returns const
+[ ] CryptoNative_GetMemoryBioSize - 
 [ ] CryptoNative_GetObjectDefinitionByName
 [ ] CryptoNative_GetPkcs12DerSize
 [ ] CryptoNative_GetPkcs7Certificates
