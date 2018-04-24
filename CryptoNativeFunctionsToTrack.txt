@@ -6,10 +6,10 @@
 [X] CryptoNative_Asn1StringFree - single call, void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_Asn1StringPrintEx - two calls, covered via Asn1StringToManagedString
 [X] CryptoNative_BigNumDestroy - single call, void, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_BigNumFromBinary => single call, missing clean up check calltree but likely clear on call site
+[ ] CryptoNative_BigNumFromBinary => single call, missing clean up check calltree but likely clear on call site Cleanup (only reports OOM)
 [X] CryptoNative_BigNumToBinary - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_BioCtrlPending - single call, return pending data amount, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_BioDestroy - single call, not cleared on the caller (likely should be), need to check call tree
+[X] CryptoNative_BioDestroy - _free.  _free functions don't ever seem to touch ERR_ 
 [X] CryptoNative_BioGets - single call, covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_BioNewFile => handful of calls, need to check call tree for AddCachedCrl, DownloadAndAddCrl, and LoadMachineStores
 [ ] CryptoNative_BioRead => all call sites protected but some taking only last error (perhaps we should ensure queue is clear)
@@ -18,7 +18,7 @@
 [ ] CryptoNative_BioWrite => Some calls not fully protected, other only last error
 [X] CryptoNative_CheckX509Hostname - Doesn't interact with any functions which modify the error queue
 [X] CryptoNative_CheckX509IpAddress - Doesn't interact with any functions which modify the error queue
-[ ] CryptoNative_CreateMemoryBio => some calls not cleaned, need to check call tree
+[ ] CryptoNative_CreateMemoryBio => some calls not cleaned, need to check call tree Cleanup (only reports OOM)
 [X] CryptoNative_D2IPkcs7Bio - covered in push to clean up error queue
 [X] CryptoNative_DecodeAsn1BitString - single call, covered by check w/ CheckValidOpensslHandle
 [ ] CryptoNative_DecodeAsn1OctetString => DEADCODE
@@ -35,29 +35,29 @@
 [ ] CryptoNative_DsaCreate => DEADCODE
 [X] CryptoNative_DsaDestroy - single call, void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_DsaGenerateKey - single call covered by CreateOpenSslCryptographicException
-[ ] CryptoNative_DsaKeyCreateByExplicitParameters => error on managed side is handled, but potential errors in SetDsaParameter on native are not
+[ ] CryptoNative_DsaKeyCreateByExplicitParameters => error on managed side is handled, but potential errors in SetDsaParameter on native are not (Needs native cleanup)
 [X] CryptoNative_DsaSign - two calls covered by CreateOpenSslCryptographicException
 [X] CryptoNative_DsaSizeP - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_DsaSizeQ - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_DsaSizeSignature - single call, docs indicate no error return, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_DsaUpRef - single call covered by CreateOpenSslCryptographicException
-[ ] CryptoNative_DsaVerify => single call not protected on the caller, need to check calltree
+[ ] CryptoNative_DsaVerify => single call not protected on the caller, need to check calltree (probably only theoretical)
 [X] CryptoNative_EcDsaSign - two calls covered by CreateOpenSslCryptographicException
-[ ] CryptoNative_EcDsaSize => two locations need to check for 0 return and throw in such cases
-[ ] CryptoNative_EcDsaVerify => single call, needs clear error, double-check call tree but seems simple
-[ ] CryptoNative_EcKeyCreateByExplicitParameters => 3 calls, relatively large native code, seems covered on managed side need to check if native can return success but leave errors on queue
-[ ] CryptoNative_EcKeyCreateByKeyParameters => single call, relatively large native code, not covered
+[ ] CryptoNative_EcDsaSize => two locations need to check for 0 return and throw in such cases Cleanup (only reports OOM)
+[ ] CryptoNative_EcDsaVerify => single call, needs clear error, double-check call tree but seems simple (probably only theoretical)
+[ ] CryptoNative_EcKeyCreateByExplicitParameters => 3 calls, relatively large native code, seems covered on managed side need to check if native can return success but leave errors on queue. #if HAVE_OPENSSL_EC2M check seems wrong (if char2 was requested and no char2 is present it passes to GFp and hopes that fails).  No check that G, gxBn, gyBn, orderBn, cofactorBn didn't fail (which might produce an error and continue-with-bad-data) (Needs native cleanup)
+[X] CryptoNative_EcKeyCreateByKeyParameters - safe (Checking reason) 
 [ ] CryptoNative_EcKeyCreateByOid => 2 calls (plus a handful in tests), needs error clean up
 [X] CryptoNative_EcKeyDestroy - single call (plus a handful in tests, void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_EcKeyGenerateKey - 3 calls on src (plus about 10 in tets), all covered in sources.
-[ ] CryptoNative_EcKeyGetCurveName2 => DEADCODE
+[X] CryptoNative_EcKeyGetCurveName2 - safe (Checking reason)
 [X] CryptoNative_EcKeyGetCurveType - called only from CryptoNative_GetECKeyParameters will be evaluated in the context of it
 [X] CryptoNative_EcKeyUpRef - single call covered by CreateOpenSslCryptographicException
-[ ] CryptoNative_EncodeAsn1Integer => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
-[ ] CryptoNative_EncodePkcs12 => single call, 2nd parameter of OpenSslEncode, not covered
-[ ] CryptoNative_EncodePkcs7 => single call, 2nd parameter of OpenSslEncode, not covered
-[ ] CryptoNative_EncodeX509 => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
-[ ] CryptoNative_EncodeX509SubjectPublicKeyInfo => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs
+[ ] CryptoNative_EncodeAsn1Integer => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs (probably only theoretical)
+[ ] CryptoNative_EncodePkcs12 => single call, 2nd parameter of OpenSslEncode, not covered (probably only theoretical)
+[ ] CryptoNative_EncodePkcs7 => single call, 2nd parameter of OpenSslEncode, not covered (probably only theoretical)
+[ ] CryptoNative_EncodeX509 => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs (probably only theoretical)
+[ ] CryptoNative_EncodeX509SubjectPublicKeyInfo => single location, assert checks no error but for safety error needs to be cleaned in OpenSslEncode src\Common\src\Interop\Unix\System.Security.Cryptography.Native\Interop.Encode.cs (probably only theoretical)
 [X] CryptoNative_EnsureLibSslInitialized - covered in push to clean up error queue
 [X] CryptoNative_EnsureOpenSslInitialized - covered in push to clean up error queue
 [X] CryptoNative_ErrClearError - clear error queue
@@ -75,7 +75,7 @@
 [x] CryptoNative_EvpAes256Ecb - explicit in table, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
 [X] CryptoNative_EvpCipherCreate2 - used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
 [X] CryptoNative_EvpCipherCtxSetPadding - used in OpenSslCipher.OpenKey, covered by CheckBoolReturn
-[ ] CryptoNative_EvpCipherDestroy => single location, clean up on native side enough
+[X] CryptoNative_EvpCipherDestroy - EVP_CIPHER_CTX_cleanup doesn't touch ERR_ 
 [X] CryptoNative_EvpCipherFinalEx - single call, covered by CheckBoolReturn
 [X] CryptoNative_EvpCipherReset - single call, covered by CheckBoolReturn
 [X] CryptoNative_EvpCipherUpdate - single call, covered by CheckBoolReturn
@@ -86,10 +86,10 @@
 [X] CryptoNative_EvpDigestFinalEx - single call, covered by Check
 [X] CryptoNative_EvpDigestReset - single call, covered by Check
 [X] CryptoNative_EvpDigestUpdate - single call, covered by Check
-[ ] CryptoNative_EvpMd5 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[X] CryptoNative_EvpMd5 - returns a global, no errors
 [X] CryptoNative_EvpMdCtxCreate - single call, covered by CheckValidOpenSslHandle
 [X] CryptoNative_EvpMdCtxDestroy - single call, void, assuming doesn't log errors on good argument
-[ ] CryptoNative_EvpMdSize => in EvpHashProvider and HmacHashProvider need throws exception but doesn't clear error queue
+[X] CryptoNative_EvpMdSize - returns a global, no errors
 [X] CryptoNative_EvpPkeyCreate - handful of locations, used in conjuction with respective EvpPkeySet*, covered by CheckValidOpenSslHandle after EvpPkeySet*
 [X] CryptoNative_EvpPKeyCtxCreate - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_EvpPKeyCtxDestroy - single call, void, assuming doesn't log errors on good argument
@@ -103,15 +103,15 @@
 [X] CryptoNative_EvpPkeySetRsa - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_EvpRC2Cbc - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
 [X] CryptoNative_EvpRC2Ecb - passed to OpenSslCipher ctor, used in OpenSslCipher.OpenKey via EvpCipherCreate, covered by CheckValidOpenSslHandle
-[ ] CryptoNative_EvpSha1 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
-[ ] CryptoNative_EvpSha256 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
-[ ] CryptoNative_EvpSha384 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
-[ ] CryptoNative_EvpSha512 => in EvpHashProvider need call via EvpMdSize to clean up error queue, same via HmacHashProvider
+[X] CryptoNative_EvpSha1 - returns a global, no errors
+[X] CryptoNative_EvpSha256 - returns a global, no errors
+[X] CryptoNative_EvpSha384 - returns a global, no errors
+[X] CryptoNative_EvpSha512 - returns a global, no errors
 [X] CryptoNative_ExtendedKeyUsageDestory - single call, void, assuming doesn't log errors on good argument
 [X] CryptoNative_GetAsn1IntegerDerSize - single call, covered in OpenSslEncode
-[ ] CryptoNative_GetAsn1StringBytes => handful of calls, some covered via GetDynamicBuffer others not
+[X] CryptoNative_GetAsn1StringBytes - handful of calls, doesn't toch ERR_ 
 [X] CryptoNative_GetBigNumBytes - single call, doc indicates no error return, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_GetDsaParameters => single call, throws exception, should clean up the queue
+[ ] CryptoNative_GetDsaParameters => doesn't seem to touch ERR_, single call, throws exception, should clean up the queue
 [X] CryptoNative_GetMaxMdSize - returns const
 [X] CryptoNative_GetMemoryBioSize - 3 calls, assuming error check for BioGets or BioRead failures covers it (most likely doesn't log errors)
 [ ] CryptoNative_GetObjectDefinitionByName => calls other natives, error clean-up can be made on native side
