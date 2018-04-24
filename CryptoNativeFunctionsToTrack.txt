@@ -257,6 +257,6 @@
 [X] CryptoNative_X509StoreDestoryactually - calls X509_STORE_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_X509StoreSetRevocationFlag - single call covered by throw Interop.Crypto.CreateOpenSslCryptographicException in case of failure
 [X] CryptoNative_X509UpRef - called in many places,  internally calls CRYPTO_add, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_X509V3ExtPrint => single call not covered, caller FormatNative in src\System.Security.Cryptography.Encoding\src\Internal\Cryptography\OpenSslAsnFormatter.cs
+[ ] CryptoNative_X509V3ExtPrint => single call not covered, caller FormatNative in src\System.Security.Cryptography.Encoding\src\Internal\Cryptography\OpenSslAsnFormatter.cs, may contamine queue on success
 [ ] CryptoNative_X509VerifyCert => 2 calls one not covered in VerifyCertChain in src\System.Net.Http\src\System\Net\Http\CurlHandler\CurlHandler.SslProvider.Linux.cs
 [X] CryptoNative_X509VerifyCertErrorString - single call, returns string for error code, likely doesn't log errorif we pass valid error code
