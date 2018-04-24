@@ -16,8 +16,8 @@
 [ ] CryptoNative_BioSeek => ops, I missed two locations of this one in previous change
 [ ] CryptoNative_BioTell => debug assert but no clean up in case of error
 [ ] CryptoNative_BioWrite => Some calls not fully protected, other only last error
-[ ] CryptoNative_CheckX509Hostname => Relatively large native, likely leaving errors on queue
-[ ] CryptoNative_CheckX509IpAddress => Relatively large native, likely leaving errors on queue
+[X] CryptoNative_CheckX509Hostname - Doesn't interact with any functions which modify the error queue
+[X] CryptoNative_CheckX509IpAddress - Doesn't interact with any functions which modify the error queue
 [ ] CryptoNative_CreateMemoryBio => some calls not cleaned, need to check call tree
 [X] CryptoNative_D2IPkcs7Bio - covered in push to clean up error queue
 [X] CryptoNative_DecodeAsn1BitString - single call, covered by check w/ CheckValidOpensslHandle
@@ -120,32 +120,32 @@
 [X] CryptoNative_GetPkcs7DerSize - single call, covered in OpenSslEncode (1st parameter)
 [ ] CryptoNative_GetRsaParameters => single call, throws CryptographicException, needs error cleanup
 [ ] CryptoNative_GetSslConnectionInfo => single call, will be covered if CreateSslException cleans up the error queue
-[ ] CryptoNative_GetX509CrlNextUpdate => single call, didn't find doc, we should check for null and clean up just in case
+[X] CryptoNative_GetX509CrlNextUpdate - Field references, no errors.
 [X] CryptoNative_GetX509DerSize - single call, error cleaned in OpenSslEncode
 [X] CryptoNative_GetX509EkuField - single call covered by throw Interop.Crypto.CreateOpenSslCryptographicException in case of failure
 [X] CryptoNative_GetX509EkuFieldCount - single call, return does not indicate error or not, assuming that it doesn't log errorif we pass valid argument
 [X] CryptoNative_GetX509EvpPublicKey - single call covered by CheckValidOpenSslHandle
-[ ] CryptoNative_GetX509NameEntry => called via GetX509NameEntry_private in GetX509NameEntry, check if caller or SafeInteriorHandle.OpenInteriorHandle handle error
-[ ] CryptoNative_GetX509NameEntryCount => single call,  we should check for negative and clean up just in case
-[ ] CryptoNative_GetX509NameEntryData => called via GetX509NameEntryData_private in GetX509NameEntryData, check if caller or SafeInteriorHandle.OpenInteriorHandle handle error
-[ ] CryptoNative_GetX509NameEntryOid => called via GetX509NameEntryOid_private in GetX509NameEntryOid, check if caller or SafeInteriorHandle.OpenInteriorHandle handle error
-[ ] CryptoNative_GetX509NameInfo => single call not covered, needs to clean up error queue
+[X] CryptoNative_GetX509NameEntry - STACK_OF function, no errors
+[X] CryptoNative_GetX509NameEntryCount - STACK_OF function, no errors
+[X] CryptoNative_GetX509NameEntryData - Field reference, no errors
+[X] CryptoNative_GetX509NameEntryOid - Field reference, no errors
+[X] CryptoNative_GetX509NameInfo - Doesn't interact with any functions which modify the error queue
 [X] CryptoNative_GetX509NameRawBytes - no actual call to lib
-[ ] CryptoNative_GetX509NameStackField => called via GetX509NameStackField_private in GetX509NameStackField, check if caller or SafeInteriorHandle.OpenInteriorHandle handle error
-[ ] CryptoNative_GetX509NameStackFieldCount => single call, didn't find doc, we should check for negative and clean up just in case
+[X] CryptoNative_GetX509NameStackField - STACK_OF function, no errors
+[X] CryptoNative_GetX509NameStackFieldCount - STACK_OF function, no errors
 [X] CryptoNative_GetX509NotAfter - no actual call to lib
 [X] CryptoNative_GetX509NotBefore - no actual call to lib
 [X] CryptoNative_GetX509PublicKeyAlgorithm - no actual call to lib
 [X] CryptoNative_GetX509PublicKeyBytes - no actual call to lib
-[ ] CryptoNative_GetX509PublicKeyParameterBytes => two calls, need to check callers of KeyAlgorithmParameters property, and also relatively large native code
-[ ] CryptoNative_GetX509RootStoreFile => called via GetX509RootStoreFile_private in GetX509RootStoreFile, needs error clean up in one location
-[ ] CryptoNative_GetX509RootStorePath => same as above
+[X] CryptoNative_GetX509PublicKeyParameterBytes - GetDynamicBuffer checks for errors during both calls
+[X] CryptoNative_GetX509RootStoreFile - OpenSSL functions just return #define values, no errors
+[X] CryptoNative_GetX509RootStorePath - OpenSSL functions just return #define values, no errors
 [X] CryptoNative_GetX509SignatureAlgorithm - no actual call to lib
-[ ] CryptoNative_GetX509StackField => several calls, cleaned in single one, need to check callers before adding throw for them
+[X] CryptoNative_GetX509StackField - STACK_OF function, no errors
 [X] CryptoNative_GetX509StackFieldCount - single call, didn't find doc, assuming that it doesn't log errorif we pass valid argument
 [X] CryptoNative_GetX509SubjectPublicKeyInfoDerSize - single call covered by OpenSslEncode
 [X] CryptoNative_GetX509Thumbprint - single call covered in GetDynamicBuffer
-[ ] CryptoNative_GetX509Version => single call throws CryptographicException without cleaning the error queue (should we throw more detailed exception?)
+[X] CryptoNative_GetX509Version - Field reference, no errors
 [X] CryptoNative_HmacCreate - single call (Unix), covered by CheckValidOpenSslHandle
 [X] CryptoNative_HmacDestroy - single call, void, assuming doesn't log errors on good argument
 [X] CryptoNative_HmacFinal - single call (Unix), covered by Check
@@ -154,8 +154,8 @@
 [X] CryptoNative_IsSslRenegotiatePending - single call, does not log error
 [X] CryptoNative_IsSslStateOK - single call, does not log error
 [ ] CryptoNative_LookupFriendlyNameByOid => single call, protected on managed but logic on native indicates that it may leave errors on the queue
-[ ] CryptoNative_NewX509NameStack => DEADCODE
-[ ] CryptoNative_NewX509Stack => two calls, call in ExportPfx needs to be double checked (it is covered if handle reaches PushHandle but need deeper check)
+[X] CryptoNative_NewX509NameStack - DEADCODE, STACK_OF function, no errors
+[X] CryptoNative_NewX509Stack - STACK_OF function, no errors
 [X] CryptoNative_ObjNid2Obj - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_ObjObj2Txt - 2 calls, both covered by CreateOpenSslCryptographicException
 [ ] CryptoNative_ObjSn2Nid => single call, there is CryptographicException but needs error clean up
@@ -170,7 +170,7 @@
 [X] CryptoNative_Pkcs7AddCertificate - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_Pkcs7CreateSigned - single call, covered by CheckValidOpenSslHandle
 [X] CryptoNative_Pkcs7Destroy - single call, void, assuming doesn't log errors on good argument
-[ ] CryptoNative_PushX509NameStackField => DEADCODE
+[X] CryptoNative_PushX509NameStackField - DEADCODE, STACK_OF function, no errors
 [X] CryptoNative_PushX509StackField - two calls, covered by CreateOpenSslCryptographicException()
 [X] CryptoNative_ReadX509AsDerFromBio - covered in push to clean up error queue
 [X] CryptoNative_RecursiveFreeX509NameStack - single call, void,  assuming that it doesn't log errorif we pass valid argument 
@@ -225,7 +225,7 @@
 [ ] CryptoNative_SslV2_3Method - it is a callback, should be protected by fixing CreateSslException (after SslCtxCreate call)
 [X] CryptoNative_SslWrite - single call, covered by GetSslError
 [X] CryptoNative_UpRefEvpPkey - single call, already protected, likely doesn't log error (CRYPTO_add).
-[ ] CryptoNative_X509CheckIssued => single call not covered, needs to clean up error queue
+[X] CryptoNative_X509CheckIssued - X509_check_issued doesn't interact with the error queue
 [X] CryptoNative_X509CheckPurpose - single call covered by throw CreateOpenSslCryptographicException
 [X] CryptoNative_X509CrlDestroy - actually calls X509_CRL_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
 [X] CryptoNative_X509Destroy - actually calls X509_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
@@ -238,7 +238,7 @@
 [X] CryptoNative_X509GetExt - single call covered by CheckValidOpenSslHandle
 [X] CryptoNative_X509GetExtCount - single call, return does not indicate error or not, assuming that it doesn't log errorif we pass valid argument
 [X] CryptoNative_X509GetIssuerName - single call covered by ChecckValidOpenSslHandle in LoadX500Name
-[ ] CryptoNative_X509GetSerialNumber => called via X509GetSerialNumber_private in X509GetSerialNumber, check if caller or SafeInteriorHandle.OpenInteriorHandle handle error
+[X] CryptoNative_X509GetSerialNumber - Field reference, no errors
 [X] CryptoNative_X509GetSubjectName - single call covered by ChecckValidOpenSslHandle in LoadX500Name
 [ ] CryptoNative_X509IssuerNameHash => single call returns hash, likely doesn't log errorif we pass valid argument, https://github.com/dotnet/corefx/issues/28724
 [X] CryptoNative_X509NameDestroy - actually calls X509_NAME_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
@@ -247,9 +247,9 @@
 [X] CryptoNative_X509StoreCreate - single call covered by CheckValidOpenSslHandle
 [X] CryptoNative_X509StoreCtxCreate - single call covered by CheckValidOpenSslHandle
 [X] CryptoNative_X509StoreCtxDestroy - actually calls X509_STORE_CTX_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
-[ ] CryptoNative_X509StoreCtxGetChain => single call not covered, although calling method throws CryptographicException on other points
-[ ] CryptoNative_X509StoreCtxGetError => single call returns code, likely doesn't log errorif we pass valid argument
-[ ] CryptoNative_X509StoreCtxGetErrorDepth => single call returns code, likely doesn't log errorif we pass valid argument
+[X] CryptoNative_X509StoreCtxGetChain - Field reference, no errors
+[X] CryptoNative_X509StoreCtxGetError - Field reference, no errors
+[X] CryptoNative_X509StoreCtxGetErrorDepth - Field reference, no errors
 [X] CryptoNative_X509StoreCtxGetSharedUntrusted - no actual call to lib
 [X] CryptoNative_X509StoreCtxGetTargetCert - no actual call to lib
 [X] CryptoNative_X509StoreCtxInit - single call covered by throw Interop.Crypto.CreateOpenSslCryptographicException in case of failure
