@@ -186,45 +186,45 @@
 [X] CryptoNative_RsaUpRef - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_RsaVerificationPrimitive - single call (Unix), covered by CheckReturn
 [ ] CryptoNative_RsaVerify => single call, in VerifyHash seems to need to clear error before return
-[ ] CryptoNative_SetEncryptionPolicy
-[ ] CryptoNative_SetProtocolOptions
-[ ] CryptoNative_SetRsaParameters
+[ ] CryptoNative_SetEncryptionPolicy => single call, missing clean up
+[ ] CryptoNative_SetProtocolOptions => 2 calls, doesn't check return but it seems function doesn't log error, need to double check
+[ ] CryptoNative_SetRsaParameters => single call, it seems to only set fields, likely doesn't log error, need to double check
 [X] CryptoNative_SetX509ChainVerifyTime - manager wrapper throw in case of failure
-[ ] CryptoNative_SslAddExtraChainCert
-[ ] CryptoNative_SslCreate
-[ ] CryptoNative_SslCtxCheckPrivateKey
-[ ] CryptoNative_SslCtxCreate
-[ ] CryptoNative_SslCtxDestroy
-[ ] CryptoNative_SslCtxSetAlpnProtos
-[ ] CryptoNative_SslCtxSetAlpnSelectCb
-[ ] CryptoNative_SslCtxSetCertVerifyCallback
-[ ] CryptoNative_SslCtxSetClientCertCallback
-[ ] CryptoNative_SslCtxSetQuietShutdown
-[ ] CryptoNative_SslCtxSetVerify
-[ ] CryptoNative_SslCtxUseCertificate
-[ ] CryptoNative_SslCtxUsePrivateKey
-[ ] CryptoNative_SslDestroy
-[ ] CryptoNative_SslDoHandshake
-[ ] CryptoNative_SSLEayVersion
-[ ] CryptoNative_SslGet0AlpnSelected
-[ ] CryptoNative_SslGetClientCAList
-[ ] CryptoNative_SslGetError
-[ ] CryptoNative_SslGetFinished
-[ ] CryptoNative_SslGetPeerCertChain
-[ ] CryptoNative_SslGetPeerCertificate
-[ ] CryptoNative_SslGetPeerFinished
-[ ] CryptoNative_SslGetVersion
-[ ] CryptoNative_SslRead
-[ ] CryptoNative_SslSessionReused
-[ ] CryptoNative_SslSetAcceptState
-[ ] CryptoNative_SslSetBio
-[ ] CryptoNative_SslSetConnectState
-[ ] CryptoNative_SslSetQuietShutdown
-[ ] CryptoNative_SslSetTlsExtHostName
-[ ] CryptoNative_SslShutdown
-[ ] CryptoNative_SslV2_3Method
-[ ] CryptoNative_SslWrite
-[ ] CryptoNative_UpRefEvpPkey
+[ ] CryptoNative_SslAddExtraChainCert => single call, not cleared, per docs SSL_CTX_add_extra_chain_cert can leave error on queue
+[X] CryptoNative_SslCreate - single call, protected on earlier push to clean up error queue
+[ ] CryptoNative_SslCtxCheckPrivateKey => single call, will be protected by fixing CreateSslException
+[ ] CryptoNative_SslCtxCreate => single call, will be protected by fixing CreateSslException
+[X] CryptoNative_SslCtxDestroy - single call, void, assuming doesn't log errors on good argument
+[ ] CryptoNative_SslCtxSetAlpnProtos => single call, will be protected by fixing CreateSslException
+[X] CryptoNative_SslCtxSetAlpnSelectCb - single call, set fields, doesn't log errors
+[X] CryptoNative_SslCtxSetCertVerifyCallback - single call, set fields, doesn't log errors
+[X] CryptoNative_SslCtxSetClientCertCallback - single call, set fields, doesn't log errors
+[X] CryptoNative_SslCtxSetQuietShutdown - single call, set fields, doesn't log errors
+[X] CryptoNative_SslCtxSetVerify - single call, set fields, doesn't log errors
+[ ] CryptoNative_SslCtxUseCertificate => single call, will be protected by fixing CreateSslException,  but likely doesn't set errors anyway
+[ ] CryptoNative_SslCtxUsePrivateKey => single call, will be protected by fixing CreateSslException
+[X] CryptoNative_SslDestroy - single call, void, doesn't log errors per docs
+[X] CryptoNative_SslDoHandshake - single call, covered by GetSslError
+[X] CryptoNative_SSLEayVersion - single call, does not set error
+[X] CryptoNative_SslGet0AlpnSelected - single call, set fields, doesn't log errors
+[X] CryptoNative_SslGetClientCAList - single call, set fields, doesn't log errors
+[X] CryptoNative_SslGetError - already covered
+[X] CryptoNative_SslGetFinished - single call, set fields, doesn't log errors
+[X] CryptoNative_SslGetPeerCertChain - single call, set fields, doesn't log errors
+[X] CryptoNative_SslGetPeerCertificate - single call, internally can call CRYPTO_add, assuming that it doesn't log error if we pass valid argument
+[X] CryptoNative_SslGetPeerFinished - single call, set fields, doesn't log errors
+[X] CryptoNative_SslGetVersion - single call, set fields, doesn't log errors
+[X] CryptoNative_SslRead - single call, covered by GetSslError
+[ ] CryptoNative_SslSessionReused => single call, call log error per docs, may need specific clean up
+[X] CryptoNative_SslSetAcceptState - single call, doesn't log error per docs
+[X] CryptoNative_SslSetBio - single call, can't fail per docs
+[X] CryptoNative_SslSetConnectState - single call, doesn't log error per docs
+[x] CryptoNative_SslSetQuietShutdown- single call, doesn't log error per docs
+[ ] CryptoNative_SslSetTlsExtHostName => single call, docs not clear, return value ignored, for safety we should clean up error queue
+[X] CryptoNative_SslShutdown - 3 calls, already covered in earlier push
+[ ] CryptoNative_SslV2_3Method - it is a callback, should be protected by fixing CreateSslException (after SslCtxCreate call)
+[X] CryptoNative_SslWrite - single call, covered by GetSslError
+[X] CryptoNative_UpRefEvpPkey - single call, already protected, likely doesn't log error (CRYPTO_add).
 [ ] CryptoNative_X509CheckIssued => single call not covered, needs to clean up error queue
 [X] CryptoNative_X509CheckPurpose - single call covered by throw CreateOpenSslCryptographicException
 [X] CryptoNative_X509CrlDestroy - actually calls X509_CRL_free ensuring the argument is not null, single call, it is void, assuming that it doesn't log error if we pass valid argument
