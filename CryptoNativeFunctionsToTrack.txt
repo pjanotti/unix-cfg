@@ -150,26 +150,26 @@
 [X] CryptoNative_HmacDestroy - single call, void, assuming doesn't log errors on good argument
 [X] CryptoNative_HmacFinal - single call (Unix), covered by Check
 [X] CryptoNative_HmacReset - single call, covered by Check
-[ ] CryptoNative_HmacUpdate - single call (Unix), covered by Check
-[ ] CryptoNative_IsSslRenegotiatePending
-[ ] CryptoNative_IsSslStateOK
-[ ] CryptoNative_LookupFriendlyNameByOid
+[X] CryptoNative_HmacUpdate - single call (Unix), covered by Check
+[X] CryptoNative_IsSslRenegotiatePending - single call, does not log error
+[X] CryptoNative_IsSslStateOK - single call, does not log error
+[ ] CryptoNative_LookupFriendlyNameByOid => single call, protected on managed but logic on native indicates that it may leave errors on the queue
 [ ] CryptoNative_NewX509NameStack => DEADCODE
 [ ] CryptoNative_NewX509Stack => two calls, call in ExportPfx needs to be double checked (it is covered if handle reaches PushHandle but need deeper check)
-[ ] CryptoNative_ObjNid2Obj
-[ ] CryptoNative_ObjObj2Txt
-[ ] CryptoNative_ObjSn2Nid
-[ ] CryptoNative_ObjTxt2Obj
-[ ] CryptoNative_PemReadBioPkcs7
+[X] CryptoNative_ObjNid2Obj - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_ObjObj2Txt - 2 calls, both covered by CreateOpenSslCryptographicException
+[ ] CryptoNative_ObjSn2Nid => single call, there is CryptographicException but needs error clean up
+[ ] CryptoNative_ObjTxt2Obj => single call, being covered by same change to cover Asn1OctetStringNew (prototype of tactical change)
+[X] CryptoNative_PemReadBioPkcs7 - 3 calls, already covered in previous change to clean up queue
 [ ] CryptoNative_PemReadBioX509Crl => two locations, need to check from callers, likely need clean up
 [X] CryptoNative_PemReadX509FromBio - covered in push to clean up error queue
 [ ] CryptoNative_PemWriteBioX509Crl => single call, return code not checked, add clean up
-[ ] CryptoNative_Pkcs12Create
-[ ] CryptoNative_Pkcs12Destroy
-[ ] CryptoNative_Pkcs12Parse
-[ ] CryptoNative_Pkcs7AddCertificate
-[ ] CryptoNative_Pkcs7CreateSigned
-[ ] CryptoNative_Pkcs7Destroy
+[X] CryptoNative_Pkcs12Create - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_Pkcs12Destroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_Pkcs12Parse - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_Pkcs7AddCertificate - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_Pkcs7CreateSigned - single call, covered by CheckValidOpenSslHandle
+[ ] CryptoNative_Pkcs7Destroy - single call, void, assuming doesn't log errors on good argument
 [ ] CryptoNative_PushX509NameStackField => DEADCODE
 [X] CryptoNative_PushX509StackField - two calls, covered by CreateOpenSslCryptographicException()
 [X] CryptoNative_ReadX509AsDerFromBio - covered in push to clean up error queue
