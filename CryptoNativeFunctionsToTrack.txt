@@ -169,23 +169,23 @@
 [X] CryptoNative_Pkcs12Parse - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_Pkcs7AddCertificate - single call, covered by CreateOpenSslCryptographicException
 [X] CryptoNative_Pkcs7CreateSigned - single call, covered by CheckValidOpenSslHandle
-[ ] CryptoNative_Pkcs7Destroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_Pkcs7Destroy - single call, void, assuming doesn't log errors on good argument
 [ ] CryptoNative_PushX509NameStackField => DEADCODE
 [X] CryptoNative_PushX509StackField - two calls, covered by CreateOpenSslCryptographicException()
 [X] CryptoNative_ReadX509AsDerFromBio - covered in push to clean up error queue
 [X] CryptoNative_RecursiveFreeX509NameStack - single call, void,  assuming that it doesn't log errorif we pass valid argument 
 [X] CryptoNative_RecursiveFreeX509Stack - single call, void,  assuming that it doesn't log errorif we pass valid argument 
-[ ] CryptoNative_RsaCreate
-[ ] CryptoNative_RsaDestroy
-[ ] CryptoNative_RsaGenerateKeyEx
-[ ] CryptoNative_RsaPrivateDecrypt
-[ ] CryptoNative_RsaPublicEncrypt
-[ ] CryptoNative_RsaSign
-[ ] CryptoNative_RsaSignPrimitive
-[ ] CryptoNative_RsaSize
-[ ] CryptoNative_RsaUpRef
-[ ] CryptoNative_RsaVerificationPrimitive
-[ ] CryptoNative_RsaVerify
+[X] CryptoNative_RsaCreate - 2 calls, covered by CheckValidOpenSslHandle
+[X] CryptoNative_RsaDestroy - single call, void, assuming doesn't log errors on good argument
+[X] CryptoNative_RsaGenerateKeyEx - single call, covered by CheckBoolReturn
+[X] CryptoNative_RsaPrivateDecrypt - single call, covered by CheckReturn
+[X] CryptoNative_RsaPublicEncrypt - 2 calls (on same method), covered by CheckReturn
+[X] CryptoNative_RsaSign - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_RsaSignPrimitive - single call, covered by CheckReturn
+[X] CryptoNative_RsaSize - about 10 calls, assuming doesn't log error with valid argument
+[X] CryptoNative_RsaUpRef - single call, covered by CreateOpenSslCryptographicException
+[X] CryptoNative_RsaVerificationPrimitive - single call (Unix), covered by CheckReturn
+[ ] CryptoNative_RsaVerify => single call, in VerifyHash seems to need to clear error before return
 [ ] CryptoNative_SetEncryptionPolicy
 [ ] CryptoNative_SetProtocolOptions
 [ ] CryptoNative_SetRsaParameters
